@@ -12,39 +12,6 @@ Buisness Objective:-
      functions, ensuring that strategies are continuously refined 
      based on real-time insights.
 
-Data Dictionary:-
-->Sales: This likely represents the sales performance of a 
-product or service. It is relevant and it is target variable
-
-->CompPrice: This could be the competitive price of a product
- in the market. | Relevant
-
-->Income: This is likely the income level of the customers. 
-| Relevant
-Advertising: This feature likely represents the amount spent
- on advertising the product or service. | Relevant
-
-Population: The size of the population in a given area or
- region. | Relevant
-
-Price: This is probably the price of the product or service.
-| Highly Relevant
-
-ShelveLoc: This categorical variable could represent the shelf
- location of the product in stores, indicating its visibility
- and prominence. | Relevant
-
-Age: This likely refers to the age of the customers or the 
-age of the product itself.| Relevant in some scenario
-
-Education: This might represent the educational level of the 
-customers. | Relevant
-
-Urban: This is likely a binary variable indicating whether 
-the customers are from urban areas or not. | Relevant
-
-US: This is likely a binary variable indicating whether the
- customers are from the United States or not. | Relevant
 """
 #importing libraries 
 import pandas as pd 

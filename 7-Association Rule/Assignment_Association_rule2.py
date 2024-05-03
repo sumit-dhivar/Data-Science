@@ -1,19 +1,34 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov  7 17:15:10 2023
+Created on Sat Nov 17 17:48:16 2023
 
 @author: sumit
+
+Problem Statement: - 
+The Departmental Store, has gathered the data of the products it 
+sells on a Daily basis.Using Association Rules concepts, provide 
+the insights on the rules and the plots.
+"""
+"""
+Business Objective
+Minimize : Loss 
+Maximaze : Sales 
+Business constraints  
 """
 
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from mlxtend.frequent_patterns import apriori,association_rules 
+
 #Here we are going to use transactional data where in the size of each row is not consistent
 #We can not use pandas to load this unstructured data 
 #here function called open() is used 
 #Create an empty list 
 groceries=[]
-import pandas as pd
-#df = pd.read_csv("groceries.csv")
-with open("groceries.csv") as f:groceries=f.read()
+with open("Groceries.csv") as f:groceries=f.read()
 #Splitting the data into seperate transactions using seperator, it is comma seperated
 #we can use new line charecter "\n" 
 groceries = groceries.split("\n")
@@ -90,4 +105,7 @@ rules=association_rules(frequent_itemsets,metric='lift',min_threshold=1)
 #this generate associatin rules of size 1198x9 columns 
 #comprises of antescends, consequences 
 rules.head(20)
-result = rules.sort_values('lift',ascending=False).head(10)
+rules.sort_values('lift',ascending=False).head(10)
+
+# After applying the apriori and association_rules we found insights
+# where the same gloceries showing in same columns with its  antecedents and consequents and its value of conviction.

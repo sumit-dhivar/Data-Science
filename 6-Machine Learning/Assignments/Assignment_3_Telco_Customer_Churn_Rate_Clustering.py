@@ -151,7 +151,8 @@ df.rename({'Referred a Friend':'referred_a_friend',
            'Total Revenue':'total_revenue'
            },axis=1,inplace=True)
 
-df.columns
+cols = df.columns
+cols
 # ['Count', 'number_of_referals', 'tenure_in_months',
 #        'avg_monthly_long_distance_charges', 'avg_monthly_gb_download',
 #        'monthly_charge', 'total_charges', 'total_refunds',
@@ -163,19 +164,30 @@ df.columns
 #        'streaming_movies', 'unlimited_data', 'Contract', 'paperless_billing',
 #        'payment_method']
 #Renamed Columns
+#Now we can see that we are having two features with same name
+#i.e streaming_movies so we will rename one of the feature 
 
-df = df.iloc[:,[0,3,4,7,11,23,24,25,26,27,28,1,2,5,6,8,9,10,12,13,14,15,16,17,18,19,20,21,22]]
+list(cols).index("streaming_movies")
+#So the first occurence of streaming_movies is at the position 23
+#So we will rename this feature 
+df.columns.values[17] = 'streaming_movies1'
+
+df = df.iloc[:,[0,1,2,3,11,12,13,14,15,16,17,4,5,6,7,8,9,10,18,19,20,21,22,23,24,25,26,27,28]]
 #rearranged the features for simplicity
 
 df_categorical = df.iloc[:,11:]
 df_categorical.columns
 
 
+for i in df_categorical.columns:
+    print(f"For the feature {i}: - ")
+    print(df[i].value_counts())
+    print("------------------------")
 
+#So from this we can see that the Quarter feature has only one type of category
+#hence we will drop this feature 
 
-
-
-
+df.drop({'Quarter'},axis=1,inplace=True)
 
 
 

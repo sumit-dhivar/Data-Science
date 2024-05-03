@@ -1,40 +1,59 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov  7 17:15:10 2023
+Created on Sun Nov 19 13:43:06 2023
 
 @author: sumit
+
+Problem Statement: - 
+A retail store in India, has its transaction data, and it would like to 
+know the buying pattern of the consumers in its locality, you have been
+assigned this task to provide the manager with rules 
+on how the placement of products needs to be there in shelves so that 
+it can improve the buyingpatterns of consumes and increase customer 
+footfall. 
+
+transaction_retail.csv
 """
+"""
+Business Objective 
+Minimize : loss of product or dissimilar products
+Maximaze : Increase Sales 
+Business constraints
+"""
+"""
+Data Dictionary
+Unstructured Data 
+"""
+# Association Rule
 
 from mlxtend.frequent_patterns import apriori,association_rules 
-#Here we are going to use transactional data where in the size of each row is not consistent
-#We can not use pandas to load this unstructured data 
-#here function called open() is used 
-#Create an empty list 
-groceries=[]
-import pandas as pd
-#df = pd.read_csv("groceries.csv")
-with open("groceries.csv") as f:groceries=f.read()
-#Splitting the data into seperate transactions using seperator, it is comma seperated
-#we can use new line charecter "\n" 
-groceries = groceries.split("\n")
-#Earlier groceries data strucure was in string format now it will change into 
-#9836 , each item is commma seperated 
-#our maing aim is to calculate #A, #C, 
-#we will have to seperate out each item form each transaction 
-groceries_list = []
-for i in groceries:
-    groceries_list.append(i.split(","))
+# Here we are going to use transactional data where in the size of each row is not consistent
+# We can not use pandas to load this unstructured data 
+# here function called open() is used 
+# Create an empty list 
+transaction_retail=[]
+with open("transactions_retail1.csv") as f:transaction_retail=f.read()
+# Splitting the data into seperate transactions using seperator, it is comma seperated
+# we can use new line charecter "\n" 
+transaction_retail = transaction_retail.split("\n")
+# Earlier transaction_retail data strucure was in string format now it will change into 
+# 557040 , each item is commma seperated 
+# our main aim is to calculate #A, #C, 
+# we will have to seperate out each item form each transaction 
+transaction_retail_list = []
+for i in transaction_retail:
+    transaction_retail_list.append(i.split(","))
 #split functionn will seperate each item from each list, whenever it will find 
-#in order to generate association rules, you can directly use groceries_list 
-#Now let us seperate out each item from the groceries_list 
-all_groceries_list=[i for item in groceries_list for i in item]
+#in order to generate association rules, you can directly use transaction_retail_list 
+#Now let us seperate out each item from the transaction_retail_list 
+all_transaction_retail_list=[i for item in transaction_retail_list for i in item]
 #You will get all the items occured in all transactions 
-#we will get 43368 items in various transactions
+#we will get 3348059 items in various transactions
 
 #Now lwt us count the frequency of each item
 #we will import collections package which has Counter frunction which will 
 from collections import Counter 
-item_frequencies = Counter (all_groceries_list)
+item_frequencies = Counter (all_transaction_retail_list)
 #item_frequencies is basically dictionary having x[0] as key and x[1] = values 
 #we want to access values and sort baseed on the count theat occured in it. 
 #it will show the counmt of each item purchased in every transactinon 
@@ -61,17 +80,17 @@ plt.ylabel("count")
 plt.show()
 import pandas as pd
 #now let us try to establish association rule mining 
-#we have groceries list in the list format, we need to convert it in dataframe 
-groceries_series = pd.DataFrame(pd.Series(groceries_list))
+#we have transaction_retail list in the list format, we need to convert it in dataframe 
+transaction_retail_series = pd.DataFrame(pd.Series(transaction_retail_list))
 #Now we will get dataframe of size 9836x1 size, columns comprises of multiple items 
 #we had extra row created , check the groceeries_series, last_row is empty, let us first delete it  
-groceries_series = groceries_series.iloc[:9835,:] 
+transaction_retail_series = transaction_retail_series.iloc[:9835,:] 
 #we have taken rows from 0 to 9834  and columns 0 to all 
-#groceries series has column having name 0, let us rename as transactions
-groceries_series.columns=["Transactions"]
+#transaction_retail series has column having name 0, let us rename as transactions
+transaction_retail_series.columns=["Transactions"]
 #Now we will have to apply 1-hot encoding, before that in one column there are various items seperated by ','
 #let us seperate it with '*'
-x=groceries_series["Transactions"].str.join(sep='*')
+x=transaction_retail_series["Transactions"].str.join(sep='*')
 #check the x in variable explorer which has * seperator rather that ','
 x=x.str.get_dummies(sep='*')
 #you will get one hot encoded data frame of size 9835x169
@@ -87,7 +106,8 @@ frequent_itemsets.sort_values('support',ascending=False,inplace=True)
 #and here it is support value 
 #we will generate  association rules, This association rule will calculate all the matrix of each and every combination 
 rules=association_rules(frequent_itemsets,metric='lift',min_threshold=1)
-#this generate associatin rules of size 1198x9 columns 
+#this generate associatin rules columns 
 #comprises of antescends, consequences 
 rules.head(20)
-result = rules.sort_values('lift',ascending=False).head(10)
+rules.sort_values('lift',ascending=False).head(10)
+
